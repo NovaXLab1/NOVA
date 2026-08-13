@@ -1,0 +1,1894 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color"
+      content="#03080f">
+
+<link rel="manifest"
+      href="manifest.json">
+
+<title>NOVA AI</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            #0b2948 0%,
+            #03080f 45%,
+            #010204 100%
+        );
+
+    color: white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    height: 68px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+    background:
+        rgba(2,8,15,.8);
+
+    border-bottom:
+        1px solid
+        rgba(50,150,255,.2);
+
+    backdrop-filter:
+        blur(15px);
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 9px;
+
+    text-shadow:
+        0 0 18px #168cff;
+}
+
+.status {
+    font-size: 11px;
+    color: #6ebfff;
+    letter-spacing: 1px;
+}
+
+.contenido {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+}
+
+.centro {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.orbe {
+    width: 190px;
+    height: 190px;
+
+    border-radius: 50%;
+
+    border:
+        2px solid #168cff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 18px #168cff,
+        0 0 55px #168cff,
+        inset 0 0 40px #168cff;
+
+    transition: .35s;
+}
+
+.orbe.escuchando {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 25px white,
+        0 0 75px #168cff,
+        inset 0 0 60px #168cff;
+}
+
+.orbe.hablando {
+    transform: scale(1.05);
+
+    box-shadow:
+        0 0 30px #168cff,
+        0 0 100px #168cff,
+        inset 0 0 70px #168cff;
+}
+
+.nucleo {
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: #168cff;
+
+    box-shadow:
+        0 0 25px #168cff,
+        0 0 65px #168cff;
+}
+
+.subtitulo {
+    margin-top: 25px;
+    color: #6595bd;
+    font-size: 13px;
+}
+
+.historial {
+    width: 420px;
+    flex-shrink: 0;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        rgba(2,8,15,.65);
+
+    border-left:
+        1px solid
+        rgba(50,150,255,.2);
+}
+
+.historialHeader {
+    height: 55px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom:
+        1px solid
+        rgba(50,150,255,.15);
+}
+
+.historialTitulo {
+    color: #8bcaff;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.limpiar {
+    background: transparent;
+
+    border:
+        1px solid #234e70;
+
+    color: #8cb2cf;
+
+    padding: 6px 10px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+.mensajes {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px;
+}
+
+.mensajes::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mensajes::-webkit-scrollbar-thumb {
+    background: #17476d;
+    border-radius: 10px;
+}
+
+.mensaje {
+    margin-bottom: 15px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.mensaje.usuario {
+    align-items: flex-end;
+}
+
+.mensaje.nova {
+    align-items: flex-start;
+}
+
+.etiqueta {
+    font-size: 10px;
+    color: #6289a8;
+    margin-bottom: 5px;
+}
+
+.burbuja {
+    max-width: 92%;
+
+    padding: 11px 14px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    word-wrap: break-word;
+}
+
+.usuario .burbuja {
+    background: #0b3b63;
+
+    border:
+        1px solid #155b8f;
+}
+
+.nova .burbuja {
+    background: #071522;
+
+    border:
+        1px solid #173a55;
+}
+
+.panel {
+    height: 135px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    background:
+        rgba(2,8,15,.85);
+
+    border-top:
+        1px solid
+        rgba(50,150,255,.15);
+}
+
+.inputArea {
+    width: 90%;
+    max-width: 900px;
+
+    display: flex;
+
+    gap: 8px;
+}
+
+.inputArea input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 14px;
+
+    background: #07111d;
+
+    border:
+        1px solid #164d7c;
+
+    color: white;
+
+    border-radius: 11px;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.inputArea input:focus {
+    border-color: #168cff;
+
+    box-shadow:
+        0 0 10px
+        rgba(22,140,255,.25);
+}
+
+.botones {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    background: #07111d;
+
+    border:
+        1px solid #168cff;
+
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background: #102b44;
+}
+
+@media(max-width:850px) {
+
+    .historial {
+        width: 45%;
+    }
+
+    .orbe {
+        width: 140px;
+        height: 140px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+
+        <div class="logo">
+            NOVA
+        </div>
+
+        <div
+            class="status"
+            id="status">
+            SISTEMA EN ESPERA
+        </div>
+
+    </div>
+
+
+    <div class="contenido">
+
+        <div class="centro">
+
+            <div
+                class="orbe"
+                id="orbe">
+
+                <div class="nucleo"></div>
+
+            </div>
+
+            <div class="subtitulo">
+                Asistente personal
+            </div>
+
+        </div>
+
+
+        <div class="historial">
+
+            <div class="historialHeader">
+
+                <div class="historialTitulo">
+                    CONVERSACIÓN
+                </div>
+
+                <button
+                    class="limpiar"
+                    onclick="limpiarHistorial()">
+
+                    Limpiar
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="mensajes"
+                id="mensajes">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="inputArea">
+
+            <input
+                id="entrada"
+                type="text"
+                placeholder="Escribe algo para NOVA..."
+                autocomplete="off">
+
+            <button
+                onclick="enviarTexto()">
+
+                ➤
+
+            </button>
+
+        </div>
+
+
+        <div class="botones">
+
+            <button
+                onclick="activarNOVA()">
+
+                🎙️ Activar
+
+            </button>
+
+            <button
+                onclick="detenerNOVA()">
+
+                ⏹ Detener
+
+            </button>
+
+            <button
+                onclick="probarVoz()">
+
+                🔊 Voz
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ============================
+   SISTEMA
+============================ */
+
+let recognition = null;
+
+let sistemaActivo = false;
+
+let hablando = false;
+
+let esperandoComando = false;
+
+let escuchando = false;
+
+let reinicio = null;
+
+let voces = [];
+
+
+/* ============================
+   ELEMENTOS
+============================ */
+
+const status =
+    document.getElementById("status");
+
+const orbe =
+    document.getElementById("orbe");
+
+const mensajes =
+    document.getElementById("mensajes");
+
+const entrada =
+    document.getElementById("entrada");
+
+
+/* ============================
+   VOCES
+============================ */
+
+function cargarVoces() {
+
+    voces =
+        speechSynthesis.getVoices();
+
+}
+
+speechSynthesis.onvoiceschanged =
+    cargarVoces;
+
+cargarVoces();
+
+
+/* ============================
+   HISTORIAL
+============================ */
+
+function agregarMensaje(tipo, texto) {
+
+    const contenedor =
+        document.createElement("div");
+
+    contenedor.className =
+        "mensaje " + tipo;
+
+    const etiqueta =
+        document.createElement("div");
+
+    etiqueta.className =
+        "etiqueta";
+
+    etiqueta.innerText =
+        tipo === "usuario"
+        ? "TÚ"
+        : "NOVA";
+
+    const burbuja =
+        document.createElement("div");
+
+    burbuja.className =
+        "burbuja";
+
+    burbuja.innerText =
+        texto;
+
+    contenedor.appendChild(
+        etiqueta
+    );
+
+    contenedor.appendChild(
+        burbuja
+    );
+
+    mensajes.appendChild(
+        contenedor
+    );
+
+    mensajes.scrollTop =
+        mensajes.scrollHeight;
+}
+
+
+/* ============================
+   LIMPIAR
+============================ */
+
+function limpiarHistorial() {
+
+    mensajes.innerHTML = "";
+
+}
+
+
+/* ============================
+   HABLAR
+============================ */
+
+function hablar(texto) {
+
+    if (!texto)
+        return;
+
+    hablando = true;
+
+    detenerReconocimiento();
+
+    speechSynthesis.cancel();
+
+    const voz =
+        new SpeechSynthesisUtterance(
+            texto
+        );
+
+    voz.lang =
+        "es-MX";
+
+    voz.rate =
+        .95;
+
+    voz.pitch =
+        .9;
+
+    const vozEsp =
+        voces.find(
+            v =>
+                v.lang &&
+                v.lang
+                    .toLowerCase()
+                    .startsWith("es")
+        );
+
+    if (vozEsp)
+        voz.voice = vozEsp;
+
+    orbe.classList.add(
+        "hablando"
+    );
+
+    status.innerText =
+        "NOVA HABLANDO";
+
+    voz.onend =
+        terminarHabla;
+
+    voz.onerror =
+        terminarHabla;
+
+    speechSynthesis.speak(
+        voz
+    );
+}
+
+
+function terminarHabla() {
+
+    hablando = false;
+
+    orbe.classList.remove(
+        "hablando"
+    );
+
+    if (sistemaActivo) {
+
+        status.innerText =
+            "ESPERANDO NOVA";
+
+        esperarEscucha();
+
+    }
+
+}
+
+
+/* ============================
+   RESPONDER
+============================ */
+
+function responder(texto) {
+
+    agregarMensaje(
+        "nova",
+        texto
+    );
+
+    hablar(
+        texto
+    );
+
+}
+
+
+/* ============================
+   RECONOCIMIENTO
+============================ */
+
+function detenerReconocimiento() {
+
+    if (!recognition)
+        return;
+
+    try {
+        recognition.stop();
+    }
+    catch(e) {}
+
+    escuchando = false;
+
+    orbe.classList.remove(
+        "escuchando"
+    );
+
+}
+
+
+function prepararRecognition() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+
+        responder(
+            "Tu navegador no tiene reconocimiento de voz."
+        );
+
+        return false;
+
+    }
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.lang =
+        "es-MX";
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+    recognition.maxAlternatives =
+        5;
+
+
+    recognition.onstart =
+        function() {
+
+            if (
+                !sistemaActivo ||
+                hablando
+            )
+                return;
+
+            escuchando = true;
+
+            status.innerText =
+                "ESCUCHANDO";
+
+            orbe.classList.add(
+                "escuchando"
+            );
+
+        };
+
+
+    recognition.onresult =
+        function(event) {
+
+            if (
+                !sistemaActivo ||
+                hablando
+            )
+                return;
+
+            const texto =
+                event
+                    .results[0][0]
+                    .transcript
+                    .toLowerCase()
+                    .trim();
+
+            escuchando = false;
+
+            orbe.classList.remove(
+                "escuchando"
+            );
+
+
+            if (
+                !esperandoComando
+            ) {
+
+                if (
+                    detectarNOVA(
+                        texto
+                    )
+                ) {
+
+                    esperandoComando =
+                        true;
+
+                    responder(
+                        "Te escucho."
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            esperandoComando =
+                false;
+
+            agregarMensaje(
+                "usuario",
+                texto
+            );
+
+            procesar(
+                texto
+            );
+
+        };
+
+
+    recognition.onerror =
+        function(event) {
+
+            escuchando = false;
+
+            orbe.classList.remove(
+                "escuchando"
+            );
+
+            console.log(
+                "Micrófono:",
+                event.error
+            );
+
+            if (
+                event.error ===
+                "not-allowed"
+            ) {
+
+                status.innerText =
+                    "MICRÓFONO BLOQUEADO";
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function() {
+
+            escuchando = false;
+
+            orbe.classList.remove(
+                "escuchando"
+            );
+
+            if (
+                sistemaActivo &&
+                !hablando
+            ) {
+
+                esperarEscucha();
+
+            }
+
+        };
+
+
+    return true;
+}
+
+
+function iniciarEscucha() {
+
+    if (
+        !sistemaActivo ||
+        hablando
+    )
+        return;
+
+    if (!recognition) {
+
+        if (
+            !prepararRecognition()
+        )
+            return;
+
+    }
+
+    try {
+
+        recognition.start();
+
+    }
+    catch(e) {}
+
+}
+
+
+function esperarEscucha() {
+
+    clearTimeout(
+        reinicio
+    );
+
+    reinicio =
+        setTimeout(
+            iniciarEscucha,
+            800
+        );
+
+}
+
+
+/* ============================
+   ACTIVAR
+============================ */
+
+function activarNOVA() {
+
+    if (sistemaActivo)
+        return;
+
+    sistemaActivo = true;
+
+    esperandoComando =
+        false;
+
+    status.innerText =
+        "ESPERANDO NOVA";
+
+    agregarMensaje(
+        "nova",
+        'Sistema activado. Di "NOVA".'
+    );
+
+    iniciarEscucha();
+
+}
+
+
+/* ============================
+   DETENER
+============================ */
+
+function detenerNOVA() {
+
+    sistemaActivo = false;
+
+    esperandoComando = false;
+
+    hablando = false;
+
+    clearTimeout(
+        reinicio
+    );
+
+    speechSynthesis.cancel();
+
+    detenerReconocimiento();
+
+    status.innerText =
+        "SISTEMA DETENIDO";
+
+}
+
+
+/* ============================
+   DETECTAR NOVA
+============================ */
+
+function detectarNOVA(texto) {
+
+    return (
+        texto.includes("nova") ||
+        texto.includes("noba") ||
+        texto.includes("no va")
+    );
+
+}
+
+
+/* ============================
+   LIMPIAR PREGUNTA
+============================ */
+
+function limpiarPregunta(texto) {
+
+    return texto
+        .toLowerCase()
+        .replace(/[¿?¡!.,]/g, "")
+        .replace(
+            /\b(nova|oye|dime|me puedes decir|puedes decirme|quiero saber|sabes)\b/g,
+            ""
+        )
+        .replace(/\s+/g, " ")
+        .trim();
+
+}
+
+
+/* ============================
+   CONOCIMIENTO
+============================ */
+
+function conocimientoDirecto(
+    pregunta
+) {
+
+    const p =
+        limpiarPregunta(
+            pregunta
+        );
+
+
+    if (
+        p.includes(
+            "cuantos huesos tiene el cuerpo humano"
+        ) ||
+        p.includes(
+            "número de huesos del cuerpo humano"
+        ) ||
+        p.includes(
+            "numero de huesos del cuerpo humano"
+        )
+    ) {
+
+        return "El cuerpo humano adulto tiene normalmente 206 huesos.";
+
+    }
+
+
+    if (
+        p.includes(
+            "cuantos planetas hay"
+        ) ||
+        p.includes(
+            "cuántos planetas hay"
+        )
+    ) {
+
+        return "Actualmente se reconocen 8 planetas en el sistema solar.";
+
+    }
+
+
+    if (
+        p.includes(
+            "planeta mas grande"
+        ) ||
+        p.includes(
+            "planeta más grande"
+        )
+    ) {
+
+        return "Júpiter es el planeta más grande del sistema solar.";
+
+    }
+
+
+    if (
+        p === "que es el sol" ||
+        p === "qué es el sol"
+    ) {
+
+        return "El Sol es una estrella situada en el centro del sistema solar.";
+
+    }
+
+
+    if (
+        p === "que es la tierra" ||
+        p === "qué es la tierra"
+    ) {
+
+        return "La Tierra es el tercer planeta del sistema solar y el planeta donde vivimos.";
+
+    }
+
+
+    if (
+        p === "que es la luna" ||
+        p === "qué es la luna"
+    ) {
+
+        return "La Luna es el satélite natural de la Tierra.";
+
+    }
+
+
+    if (
+        p.includes(
+            "capital de mexico"
+        ) ||
+        p.includes(
+            "capital de méxico"
+        )
+    ) {
+
+        return "La capital de México es Ciudad de México.";
+
+    }
+
+
+    if (
+        p.includes(
+            "cuantos dias tiene una semana"
+        ) ||
+        p.includes(
+            "cuántos días tiene una semana"
+        )
+    ) {
+
+        return "Una semana tiene 7 días.";
+
+    }
+
+
+    if (
+        p.includes(
+            "cuantas horas tiene un dia"
+        ) ||
+        p.includes(
+            "cuántas horas tiene un día"
+        )
+    ) {
+
+        return "Un día tiene 24 horas.";
+
+    }
+
+
+    if (
+        p.includes(
+            "cuantos minutos tiene una hora"
+        ) ||
+        p.includes(
+            "cuántos minutos tiene una hora"
+        )
+    ) {
+
+        return "Una hora tiene 60 minutos.";
+
+    }
+
+
+    if (
+        p.includes(
+            "cuantos segundos tiene un minuto"
+        ) ||
+        p.includes(
+            "cuántos segundos tiene un minuto"
+        )
+    ) {
+
+        return "Un minuto tiene 60 segundos.";
+
+    }
+
+
+    if (
+        p.includes(
+            "que es un sintetizador"
+        ) ||
+        p.includes(
+            "qué es un sintetizador"
+        )
+    ) {
+
+        return "Un sintetizador es un instrumento electrónico que genera y modifica sonidos mediante señales electrónicas. Se usa muchísimo en música electrónica, pop, hip-hop y otros géneros.";
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ============================
+   PROCESADOR
+============================ */
+
+async function procesar(texto) {
+
+    const pregunta =
+        limpiarPregunta(
+            texto
+        );
+
+
+    const directa =
+        conocimientoDirecto(
+            pregunta
+        );
+
+
+    if (directa) {
+
+        responder(
+            directa
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta === "hola"
+    ) {
+
+        responder(
+            "Hola. ¿Qué necesitas?"
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.includes(
+            "hora"
+        )
+    ) {
+
+        const hora =
+            new Date()
+                .toLocaleTimeString(
+                    "es-MX",
+                    {
+                        hour:
+                            "numeric",
+                        minute:
+                            "2-digit"
+                    }
+                );
+
+        responder(
+            "Son las " +
+            hora
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.includes(
+            "fecha"
+        ) ||
+        pregunta.includes(
+            "que dia es hoy"
+        ) ||
+        pregunta.includes(
+            "qué día es hoy"
+        )
+    ) {
+
+        const fecha =
+            new Date()
+                .toLocaleDateString(
+                    "es-MX",
+                    {
+                        weekday:
+                            "long",
+                        day:
+                            "numeric",
+                        month:
+                            "long",
+                        year:
+                            "numeric"
+                    }
+                );
+
+        responder(
+            "Hoy es " +
+            fecha
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.startsWith(
+            "calcula "
+        ) ||
+        pregunta.startsWith(
+            "calcular "
+        )
+    ) {
+
+        let operacion =
+            pregunta
+                .replace(
+                    "calcula",
+                    ""
+                )
+                .replace(
+                    "calcular",
+                    ""
+                )
+                .trim();
+
+        operacion =
+            operacion
+                .replace(
+                    /por/g,
+                    "*"
+                )
+                .replace(
+                    /x/g,
+                    "*"
+                )
+                .replace(
+                    /más/g,
+                    "+"
+                )
+                .replace(
+                    /mas/g,
+                    "+"
+                )
+                .replace(
+                    /menos/g,
+                    "-"
+                );
+
+        try {
+
+            if (
+                !/^[0-9+\-*/().\s]+$/
+                    .test(
+                        operacion
+                    )
+            ) {
+                throw new Error();
+            }
+
+            const resultado =
+                Function(
+                    "return " +
+                    operacion
+                )();
+
+            responder(
+                "El resultado es " +
+                resultado
+            );
+
+        }
+        catch {
+
+            responder(
+                "No pude calcular esa operación."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.includes(
+            "abre youtube"
+        ) ||
+        pregunta.includes(
+            "abrir youtube"
+        )
+    ) {
+
+        responder(
+            "Abriendo YouTube."
+        );
+
+        setTimeout(
+            () => {
+                window.open(
+                    "https://youtube.com",
+                    "_blank"
+                );
+            },
+            800
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.includes(
+            "abre spotify"
+        ) ||
+        pregunta.includes(
+            "abrir spotify"
+        )
+    ) {
+
+        responder(
+            "Abriendo Spotify."
+        );
+
+        setTimeout(
+            () => {
+                window.open(
+                    "https://open.spotify.com",
+                    "_blank"
+                );
+            },
+            800
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.includes(
+            "abre google"
+        ) ||
+        pregunta.includes(
+            "abrir google"
+        )
+    ) {
+
+        responder(
+            "Abriendo Google."
+        );
+
+        setTimeout(
+            () => {
+                window.open(
+                    "https://google.com",
+                    "_blank"
+                );
+            },
+            800
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.startsWith(
+            "busca "
+        ) ||
+        pregunta.startsWith(
+            "buscar "
+        )
+    ) {
+
+        const busqueda =
+            pregunta
+                .replace(
+                    "busca",
+                    ""
+                )
+                .replace(
+                    "buscar",
+                    ""
+                )
+                .trim();
+
+        if (!busqueda) {
+
+            responder(
+                "¿Qué quieres que busque?"
+            );
+
+            return;
+
+        }
+
+        responder(
+            "Voy a buscar " +
+            busqueda +
+            " en Google."
+        );
+
+        setTimeout(
+            () => {
+
+                window.open(
+
+                    "https://www.google.com/search?q=" +
+                    encodeURIComponent(
+                        busqueda
+                    ),
+
+                    "_blank"
+
+                );
+
+            },
+            800
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pregunta.includes(
+            "crea una imagen"
+        ) ||
+        pregunta.includes(
+            "genera una imagen"
+        ) ||
+        pregunta.includes(
+            "haz una imagen"
+        )
+    ) {
+
+        responder(
+            "Todavía no tengo conectado un generador de imágenes."
+        );
+
+        return;
+
+    }
+
+
+    await buscarWikipedia(
+        pregunta
+    );
+
+}
+
+
+/* ============================
+   WIKIPEDIA
+============================ */
+
+async function buscarWikipedia(
+    pregunta
+) {
+
+    status.innerText =
+        "BUSCANDO INFORMACIÓN";
+
+    const carga =
+        agregarCarga();
+
+    try {
+
+        const url =
+            "https://es.wikipedia.org/w/api.php" +
+            "?action=query" +
+            "&generator=search" +
+            "&gsrsearch=" +
+            encodeURIComponent(
+                pregunta
+            ) +
+            "&gsrlimit=5" +
+            "&prop=extracts" +
+            "&exintro=1" +
+            "&explaintext=1" +
+            "&format=json" +
+            "&origin=*";
+
+        const response =
+            await fetch(
+                url
+            );
+
+        if (!response.ok)
+            throw new Error();
+
+        const data =
+            await response.json();
+
+        eliminarCarga(
+            carga
+        );
+
+        if (
+            !data.query ||
+            !data.query.pages
+        ) {
+
+            responder(
+                "No encontré una respuesta confiable para esa pregunta."
+            );
+
+            return;
+
+        }
+
+        const paginas =
+            Object.values(
+                data.query.pages
+            );
+
+        const palabras =
+            pregunta
+                .toLowerCase()
+                .split(/\s+/)
+                .filter(
+                    palabra =>
+                        palabra.length > 3
+                );
+
+        let mejor = null;
+
+        let mejorPuntaje = 0;
+
+        for (
+            const pagina
+            of paginas
+        ) {
+
+            const titulo =
+                (
+                    pagina.title ||
+                    ""
+                ).toLowerCase();
+
+            const extracto =
+                (
+                    pagina.extract ||
+                    ""
+                ).toLowerCase();
+
+            let puntaje = 0;
+
+            for (
+                const palabra
+                of palabras
+            ) {
+
+                if (
+                    titulo.includes(
+                        palabra
+                    )
+                ) {
+                    puntaje += 4;
+                }
+
+                if (
+                    extracto.includes(
+                        palabra
+                    )
+                ) {
+                    puntaje += 1;
+                }
+
+            }
+
+            if (
+                puntaje >
+                mejorPuntaje
+            ) {
+
+                mejorPuntaje =
+                    puntaje;
+
+                mejor =
+                    pagina;
+
+            }
+
+        }
+
+        if (
+            !mejor ||
+            mejorPuntaje < 2 ||
+            !mejor.extract
+        ) {
+
+            responder(
+                "No encontré información suficientemente relacionada con tu pregunta."
+            );
+
+            return;
+
+        }
+
+        let texto =
+            mejor.extract;
+
+        if (
+            texto.length > 900
+        ) {
+
+            texto =
+                texto.substring(
+                    0,
+                    900
+                ) +
+                "...";
+
+        }
+
+        agregarMensaje(
+            "nova",
+            texto
+        );
+
+        hablar(
+            texto
+        );
+
+    }
+    catch(error) {
+
+        eliminarCarga(
+            carga
+        );
+
+        responder(
+            "No pude consultar la información en este momento."
+        );
+
+    }
+
+}
+
+
+/* ============================
+   CARGANDO
+============================ */
+
+function agregarCarga() {
+
+    const elemento =
+        document.createElement(
+            "div"
+        );
+
+    elemento.className =
+        "mensaje nova";
+
+    elemento.innerHTML =
+        '<div class="etiqueta">NOVA</div>' +
+        '<div class="burbuja">Analizando...</div>';
+
+    mensajes.appendChild(
+        elemento
+    );
+
+    mensajes.scrollTop =
+        mensajes.scrollHeight;
+
+    return elemento;
+
+}
+
+
+function eliminarCarga(
+    elemento
+) {
+
+    if (elemento)
+        elemento.remove();
+
+}
+
+
+/* ============================
+   TEXTO
+============================ */
+
+function enviarTexto() {
+
+    const texto =
+        entrada.value.trim();
+
+    if (!texto)
+        return;
+
+    entrada.value =
+        "";
+
+    agregarMensaje(
+        "usuario",
+        texto
+    );
+
+    procesar(
+        texto.toLowerCase()
+    );
+
+}
+
+
+/* ============================
+   ENTER
+============================ */
+
+entrada.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Enter"
+        ) {
+
+            enviarTexto();
+
+        }
+
+    }
+);
+
+
+/* ============================
+   VOZ
+============================ */
+
+function probarVoz() {
+
+    hablar(
+        "Hola. Soy NOVA. El sistema de voz funciona correctamente."
+    );
+
+}
+
+
+/* ============================
+   INICIO
+============================ */
+
+agregarMensaje(
+    "nova",
+    "Hola. Soy NOVA. Puedes escribirme o activar el micrófono."
+);
+
+
+/* ============================
+   SERVICE WORKER
+============================ */
+
+if (
+    "serviceWorker" in navigator
+) {
+
+    navigator.serviceWorker
+        .register(
+            "sw.js"
+        )
+        .catch(
+            error =>
+                console.log(
+                    "Service Worker:",
+                    error
+                )
+        );
+
+}
+
+</script>
+
+</body>
+
+</html>
+```
